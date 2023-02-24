@@ -1,23 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
+import countries from "./countries.json"
+import NavBar from './components/NavBar';
+import CountryDetails from './components/CountryDetails';
+import { Routes, Route } from 'react-router-dom';
+import CountryList from './components/CountryList'
+import { useState } from 'react';
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <NavBar>LAB- WikiCountries</NavBar>
+      <Routes>  
+        <Route
+          path="/"
+          element={ <CountryList Country={CountryList} /> }
+        />
+
+        <Route 
+          path="/CountryList/:countryname" 
+          element={ <CountryDetails /> } 
+        />            
+      </Routes>
     </div>
   );
 }
