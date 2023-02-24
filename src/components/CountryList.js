@@ -1,46 +1,45 @@
-import { useState } from "react";
- import { Link } from "react-router-dom";
- import CountryDetails from "./CountryDetails";
- import countries from "../countries.json";
+import { Link } from "react-router-dom"
 
+const CountriesList = ({ countries }) => {
 
+    const getPhoto = (code) => {
 
- function CountryList (props) {
-    const [foundCountries, setFoundCountries] = useState(countries);
-    console.log(foundCountries)
-
-
-
-    return (
-      <div>
-          <h2>Country List</h2>
-
-
-
-
-          {foundCountries.map((country) => {
-            return (
-              <div key={country.name.common} className="countries">
-                <h3>
-
-                 <img alt="pic" src={`https://flagpedia.net/data/flags/icon/72x54/${country.alpha2Code.toLowerCase()}.png`}/>
-                <Link to={`/CountryDetails/${country.alpha3Code}`}> 
-                    {country.name.common} 
-                    </Link>
-
-
-                </h3>
-              </div>
-            );
-          })}
-        </div>
- );
+        return `https://flagpedia.net/data/flags/icon/72x54/${code.toLowerCase()}.png`
     }
 
+    let sort = (array) => {
+        return array.sort((a,b) => a.name.common.localeCompare(b.name.common))
+    }
+
+    return (
+        <div className="col-5" style={{maxHeight: '90vh', overflow: 'scroll'}}>
 
 
+            <div className="list-group">
 
 
+                {countries ? 
+                    <>
 
+                        {sort(countries).map((country) => {
+                            return (
+                                    <div className="list-group-item list-group-item-action" key={country.alpha3Code}>
+                                        <Link to={`/${country.alpha3Code}`}>
+                                                <img src={getPhoto(country.alpha2Code)} alt='flag' />
+                                                <h2>{country.name.common}</h2>
+                                        </Link>
+                                    </div>
+                            )
+                        })}
 
-export default CountryList;
+                    </>
+
+                    : <h4>Loading...</h4>
+                }
+
+            </div>
+        </div>
+    )
+}
+
+export default CountriesList
